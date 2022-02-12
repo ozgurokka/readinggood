@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,5 +17,7 @@ import java.util.List;
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity,String> {
     List<OrderEntity> findAllByCustomerEntity_Id(String id);
     List<OrderEntity> findAllByOrderTimeBetween(Timestamp from, Timestamp to);
+    List<OrderEntity> findAllByCustomerEntity_IdAndOrderTimeBetween(String id, Timestamp from, Timestamp to);
+
 
 }

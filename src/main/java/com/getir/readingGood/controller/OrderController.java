@@ -52,6 +52,7 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseDTO>>  getOrdersFromTo (@PathVariable(name="start-date", required=true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date from, @PathVariable(name="end-date", required=true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date to) {
         List<OrderEntity> orderEntityList = orderService.getOrdersFromTo(from,to);
         List<OrderResponseDTO> responseDTOS = new ArrayList<>();
+
         orderEntityList.forEach(orderEntity -> {
             OrderResponseDTO responseDTO = ObjectMapperUtils.map(orderEntity, OrderResponseDTO.class);
             responseDTOS.add(responseDTO);

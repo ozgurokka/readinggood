@@ -60,4 +60,5 @@ public class OrderEntity {
     public int hashCode() {
         return Objects.hash(id, amount, orderTime, status);
     }
+
 }
