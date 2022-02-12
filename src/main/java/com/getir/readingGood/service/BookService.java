@@ -7,4 +7,5 @@ import com.getir.readingGood.model.entity.BookEntity;
  */
 public interface BookService {
     public BookEntity persistBook(BookEntity bookEntity);
+    public BookEntity updateBookStock(String id,int stock);
 }

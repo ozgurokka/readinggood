@@ -20,4 +20,5 @@ public class OrderResponseDTO {
     private String customerId;
     private List<OrderDetailDTO> orderDetailEntityList;
     private Timestamp orderTime;
+    private int status;
 }

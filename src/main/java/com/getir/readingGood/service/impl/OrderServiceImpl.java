@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     BookRepository bookRepository;
 
     @Override
+    @Transactional
     public OrderEntity saveOrder(OrderEntity orderEntity) {
 
         Optional<CustomerEntity> customerEntity = customerRepository.findById(orderEntity.getCustomerEntity().getId());
@@ -53,7 +56,11 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.getOrderDetailEntityList().forEach(orderDetailEntity-> orderDetailEntity.setId(ReadingGoodUtils.getUUID()));
 
         orderEntity.getOrderDetailEntityList().forEach(orderDetailEntity -> {
-            Optional<BookEntity> bookEntity = bookRepository.findById(orderDetailEntity.getBookEntity().getId());
+
+            // find book with pesimistic lock.
+            Optional<BookEntity> bookEntity = bookRepository.findBookWithPessimisticLock(orderDetailEntity.getBookEntity().getId());
+
+            //controls
             if(!bookEntity.isPresent()){
                 throw new BookNotFoundException(orderDetailEntity.getBookEntity().getId());
             }
@@ -79,5 +86,17 @@ public class OrderServiceImpl implements OrderService {
             throw  new NotFoundException("Order Not Found, id:" + id);
         }
         return orderEntity.get();
+    }
+
+    @Override
+    public List<OrderEntity> getCustomerOrders(String id) {
+        return orderRepository.findAllByCustomerEntity_Id(id);
+    }
+
+    @Override
+    public List<OrderEntity> getOrdersFromTo(Date from, Date to) {
+        Instant start = from.toInstant();
+        Instant end = to.toInstant();
+        return orderRepository.findAllByOrderTimeBetween(Timestamp.from(start),Timestamp.from(end));
     }
 }

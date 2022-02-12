@@ -3,6 +3,7 @@ package com.getir.readingGood.util;
 import com.getir.readingGood.model.dto.CustomerDTO;
 import com.getir.readingGood.model.dto.OrderDTO;
 import com.getir.readingGood.model.dto.OrderDetailDTO;
+import com.getir.readingGood.model.dto.OrderResponseDTO;
 import com.getir.readingGood.model.entity.BookEntity;
 import com.getir.readingGood.model.entity.CustomerEntity;
 import com.getir.readingGood.model.entity.OrderDetailEntity;
@@ -45,12 +46,21 @@ public class ObjectMapperUtils {
             map.using(customerConverter).map(OrderDTO::getCustomerId, OrderEntity::setCustomerEntity);
         });
 
+
+        TypeMap<OrderEntity, OrderResponseDTO> typeMapResponse = modelMapper.createTypeMap(OrderEntity.class, OrderResponseDTO.class);
+        typeMapResponse.addMapping(src -> src.getCustomerEntity().getId(), (dest, v) -> dest.setCustomerId(""));
+
+
         //converter for book
         TypeMap<OrderDetailDTO, OrderDetailEntity> typeMapOrderDetail = modelMapper.createTypeMap(OrderDetailDTO.class, OrderDetailEntity.class);
         Converter<String, BookEntity> bookConverter = ctx -> new BookEntity(ctx.getSource());
         typeMapOrderDetail.addMappings(map -> {
             map.using(bookConverter).map(OrderDetailDTO::getBookId, OrderDetailEntity::setBookEntity);
         });
+
+        TypeMap<OrderDetailEntity,OrderDetailDTO > typeMapOrderDetailDto = modelMapper.createTypeMap(OrderDetailEntity.class,OrderDetailDTO.class );
+        typeMapOrderDetailDto.addMapping(src -> src.getBookEntity().getId(), (dest, v) -> dest.setBookId(""));
+
 
     }
 
