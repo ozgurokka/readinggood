@@ -29,7 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v3/api-docs",
-                "/configuration/ui","/swagger-ui/",
+                "/configuration/ui",
+                "/swagger-ui/",
+                "/swagger-ui/**",
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",

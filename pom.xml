@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.getir</groupId>
-	<artifactId>readingGood</artifactId>
+	<artifactId>readinggood</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>readingGood</name>
 	<description>Reading is good project for Getir</description>
@@ -95,6 +95,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>
