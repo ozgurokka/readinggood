@@ -27,13 +27,6 @@ public class StatisticsController {
     @GetMapping(path = "/api/statistics/customer/{customer-id}")
     public ResponseEntity<List<StatisticDTO>> getCustomersOrders(@PathVariable(name = "customer-id", required = true) String customerId) throws NotFoundException {
         List<StatisticDTO> customerMonthlyStatistics = statisticsService.getCustomerMonthlyStatistics(customerId);
-
-//        List<OrderResponseDTO> responseDTOS = new ArrayList<>();
-//        orderEntityList.forEach(orderEntity -> {
-//            OrderResponseDTO responseDTO = ObjectMapperUtils.map(orderEntity, OrderResponseDTO.class);
-//            responseDTOS.add(responseDTO);
-//        });ß
-
         return ResponseEntity.ok(customerMonthlyStatistics);
     }
 }
