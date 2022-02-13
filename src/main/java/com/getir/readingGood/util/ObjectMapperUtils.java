@@ -110,4 +110,8 @@ public class ObjectMapperUtils {
         return destination;
     }
 
+    public static ModelMapper getMapper(){
+        return modelMapper;
+    }
+
 }
